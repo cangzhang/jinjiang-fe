@@ -16,7 +16,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <NavBar/>
-        <main className="w-full px-4 mx-auto max-w-8xl">
+        <main className="md:container md:mx-auto">
           <Routes>
             <Route path="/novel/:novelID" element={<NovelStats/>}/>
             <Route path="/novels" element={<NovelList/>}/>
