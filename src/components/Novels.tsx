@@ -36,6 +36,16 @@ export function NovelList() {
     const names = Object.keys(ret);
     return [names, ret];
   }, [rawList]);
+  
+  const targetList = useMemo(() => {
+    const list = grouped[tabs?.[tabIdx]];
+    if (!list) return [];
+
+    return [
+      ...list.filter(i => i.inList),
+      ...list.filter(i => !i.inList)
+    ];
+  }, [grouped, tabIdx, tabs]);
 
   return (
     <div className="flex-col">
@@ -68,10 +78,11 @@ export function NovelList() {
               <TableHeaderCell>Name</TableHeaderCell>
               <TableHeaderCell>Author ID</TableHeaderCell>
               <TableHeaderCell>List</TableHeaderCell>
+              <TableHeaderCell>On List</TableHeaderCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {grouped[tabs?.[tabIdx]]?.map((item) => (
+            {targetList.map((item) => (
               <TableRow key={item.novelId}>
                 <TableCell>
                   <Link
@@ -88,6 +99,9 @@ export function NovelList() {
                 </TableCell>
                 <TableCell>
                   {item.listName}
+                </TableCell>
+                <TableCell>
+                  {item.inList && '✅'}
                 </TableCell>
               </TableRow>
             ))}
